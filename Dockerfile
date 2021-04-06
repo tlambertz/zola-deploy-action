@@ -1,4 +1,4 @@
-from debian:stretch-slim
+from ubuntu:latest
 MAINTAINER Shaleen Jain <shaleen@jain.sh>
 
 LABEL "com.github.actions.name"="Zola Deploy to Pages"
@@ -13,10 +13,7 @@ ENV LANGUAGE en_US.UTF-8
 
 RUN apt-get update && apt-get install -y wget git
 
-RUN wget -q -O - \
-"https://github.com/getzola/zola/releases/download/v0.13.0/zola-v0.13.0-x86_64-unknown-linux-gnu.tar.gz" \
-| tar xzf - -C /usr/local/bin
-
+COPY zola /usr/local/bin/zola
 COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
