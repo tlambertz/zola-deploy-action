@@ -37,6 +37,10 @@ if [[ -z "$GITHUB_TOKEN" ]] && [[ "$BUILD_ONLY" == false ]]; then
     exit 1
 fi
 
+if [[ -z "$ZOLA_CONFIG" ]]; then
+    ZOLA_CONFIG="config.toml"
+fi
+
 main() {
     echo "Starting deploy..."
 
@@ -56,8 +60,9 @@ main() {
     echo "Building in $BUILD_DIR directory"
     cd $BUILD_DIR
 
+    echo Building with config: $ZOLA_CONFIG
     echo Building with flags: ${BUILD_FLAGS:+"$BUILD_FLAGS"}
-    zola build ${BUILD_FLAGS:+$BUILD_FLAGS}
+    zola -c $ZOLA_CONFIG build ${BUILD_FLAGS:+$BUILD_FLAGS}
 
     if ${BUILD_ONLY}; then
         echo "Build complete. Deployment skipped by request"
